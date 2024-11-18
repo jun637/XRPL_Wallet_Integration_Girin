@@ -85,8 +85,13 @@ export function ClientContextProvider({
       try {
         const requiredNamespaces: ProposalTypes.RequiredNamespaces = {
           xrpl: {
-            chains: ["xrpl:0"],
+            chains: ["xrpl:0", "xrpl:1"],
             methods: ["xrpl_signTransaction"],
+            events: [],
+          },
+          eip155: {
+            chains: ["eip155:7668", "eip155:7672"],
+            methods: ["eth_sendTransaction"],
             events: [],
           },
         };

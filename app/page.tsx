@@ -12,8 +12,8 @@ export default function Home() {
   );
   const [amount, setAmount] = useState<string>("100000");
 
-  const sendTransaction = async () => {
-    const result = await signTransaction("xrpl:0", {
+  const sendTransaction = async (network: string) => {
+    const result = await signTransaction(network, {
       TransactionType: "Payment",
       Account: accounts[0].split(":")[2],
       Destination: address,
@@ -28,7 +28,7 @@ export default function Home() {
       <div className="flex flex-col space-y-4">
         <Wallet />
         <div className="flex flex-col">
-          <h1>Send</h1>
+          <h1>XRPL Send</h1>
           <Input
             type="text"
             value={address}
@@ -43,9 +43,42 @@ export default function Home() {
           />
           <Button
             disabled={accounts.length == 0}
-            onClick={() => sendTransaction()}
+            onClick={() => sendTransaction("xrpl:1")}
           >
-            Test Send
+            XRPL Testnet Send
+          </Button>
+          <Button
+            disabled={accounts.length == 0}
+            onClick={() => sendTransaction("xrpl:0")}
+          >
+            XRPL Mainnet Send
+          </Button>
+        </div>
+        <div className="flex flex-col">
+          <h1>The Root Network Send</h1>
+          <Input
+            type="text"
+            value={address}
+            placeholder="Enter address"
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <Input
+            type="text"
+            value={amount}
+            placeholder="Enter amount"
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <Button
+            disabled={accounts.length == 0}
+            onClick={() => sendTransaction("xrpl:1")}
+          >
+            TRN Porcini Send
+          </Button>
+          <Button
+            disabled={accounts.length == 0}
+            onClick={() => sendTransaction("xrpl:0")}
+          >
+            TRN Mainnet Send
           </Button>
         </div>
       </div>
