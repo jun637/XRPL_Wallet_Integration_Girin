@@ -1,10 +1,10 @@
-import Client from "@walletconnect/sign-client";
+import Client from '@walletconnect/sign-client';
 import {
   PairingTypes,
   ProposalTypes,
   SessionTypes,
-} from "@walletconnect/types";
-import { Web3Modal } from "@web3modal/standalone";
+} from '@walletconnect/types';
+import { Web3Modal } from '@web3modal/standalone';
 
 import {
   createContext,
@@ -14,9 +14,9 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
-import { getAppMetadata, getSdkError } from "@walletconnect/utils";
+import { getAppMetadata, getSdkError } from '@walletconnect/utils';
 
 interface IContext {
   client: Client | undefined;
@@ -56,8 +56,8 @@ export function ClientContextProvider({
   const web3Modal = useMemo(
     () =>
       new Web3Modal({
-        projectId: process.env.NEXT_PUBLIC_PROJECT_ID ?? "",
-        themeMode: "light",
+        projectId: process.env.NEXT_PUBLIC_PROJECT_ID ?? '',
+        themeMode: 'light',
         walletConnectVersion: 2,
       }),
     []
@@ -85,13 +85,13 @@ export function ClientContextProvider({
       try {
         const requiredNamespaces: ProposalTypes.RequiredNamespaces = {
           xrpl: {
-            chains: ["xrpl:0", "xrpl:1"],
-            methods: ["xrpl_signTransaction"],
+            chains: ['xrpl:0', 'xrpl:1'],
+            methods: ['xrpl_signTransaction'],
             events: [],
           },
           eip155: {
-            chains: ["eip155:7668", "eip155:7672"],
-            methods: ["eth_sendTransaction"],
+            chains: ['eip155:7668', 'eip155:7672'],
+            methods: ['eth_sendTransaction'],
             events: [],
           },
         };
@@ -129,7 +129,7 @@ export function ClientContextProvider({
     try {
       await client.disconnect({
         topic: session.topic,
-        reason: getSdkError("USER_DISCONNECTED"),
+        reason: getSdkError('USER_DISCONNECTED'),
       });
     } catch (e) {
       console.error(e);
@@ -171,7 +171,7 @@ export function ClientContextProvider({
         chainId,
         topic: session!.topic,
         request: {
-          method: "xrpl_signTransaction",
+          method: 'xrpl_signTransaction',
           params: {
             tx_json,
             autofill: options?.autofill,

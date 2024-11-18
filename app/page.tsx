@@ -1,21 +1,21 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Wallet from "@/components/wallet";
-import { useWalletConnectClient } from "@/context/ClientContext";
-import { useState } from "react";
+'use client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import Wallet from '@/components/wallet';
+import { useWalletConnectClient } from '@/context/ClientContext';
+import { useState } from 'react';
 
 export default function Home() {
   const { accounts, signTransaction } = useWalletConnectClient();
   const [address, setAddress] = useState<string>(
-    "rGA3kwmB5hBnvs6VW1fnGKysJfBCUazDrD"
+    'rGA3kwmB5hBnvs6VW1fnGKysJfBCUazDrD'
   );
-  const [amount, setAmount] = useState<string>("100000");
+  const [amount, setAmount] = useState<string>('100000');
 
   const sendTransaction = async (network: string) => {
     const result = await signTransaction(network, {
-      TransactionType: "Payment",
-      Account: accounts[0].split(":")[2],
+      TransactionType: 'Payment',
+      Account: accounts[0].split(':')[2],
       Destination: address,
       Amount: amount,
     });
@@ -43,13 +43,13 @@ export default function Home() {
           />
           <Button
             disabled={accounts.length == 0}
-            onClick={() => sendTransaction("xrpl:1")}
+            onClick={() => sendTransaction('xrpl:1')}
           >
             XRPL Testnet Send
           </Button>
           <Button
             disabled={accounts.length == 0}
-            onClick={() => sendTransaction("xrpl:0")}
+            onClick={() => sendTransaction('xrpl:0')}
           >
             XRPL Mainnet Send
           </Button>
@@ -70,13 +70,13 @@ export default function Home() {
           />
           <Button
             disabled={accounts.length == 0}
-            onClick={() => sendTransaction("xrpl:1")}
+            onClick={() => sendTransaction('xrpl:1')}
           >
             TRN Porcini Send
           </Button>
           <Button
             disabled={accounts.length == 0}
-            onClick={() => sendTransaction("xrpl:0")}
+            onClick={() => sendTransaction('xrpl:0')}
           >
             TRN Mainnet Send
           </Button>
