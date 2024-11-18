@@ -155,12 +155,14 @@ export function ClientContextProvider({
   }, [createClient, client]);
 
   const signTransaction = useCallback(
-    (
+    async (
       chainId: string,
       tx_json: Record<string, unknown>,
       options?: { autofill?: boolean; submit?: boolean }
     ) => {
-      const result = client!.request<{ tx_json: Record<string, unknown> }>({
+      const result = await client!.request<{
+        tx_json: Record<string, unknown>;
+      }>({
         chainId,
         topic: session!.topic,
         request: {
@@ -172,6 +174,7 @@ export function ClientContextProvider({
           },
         },
       });
+      console.log(result);
       return result;
     },
     [client, session]
