@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col min-h-screen justify-center items-center space-y-10">
+    <main className="flex min-h-screen flex-col items-center justify-center space-y-10">
       <h1 className="text-2xl font-bold">Girin WalletConnect Example</h1>
       <div className="flex flex-col space-y-4">
         <Wallet />
