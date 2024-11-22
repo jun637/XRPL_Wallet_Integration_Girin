@@ -4,8 +4,8 @@ import {
   ProposalTypes,
   SessionTypes,
 } from '@walletconnect/types';
-import { Web3Modal } from '@web3modal/standalone';
 
+import { WalletConnectModal } from '@walletconnect/modal';
 import {
   createContext,
   ReactNode,
@@ -55,10 +55,15 @@ export function ClientContextProvider({
 
   const web3Modal = useMemo(
     () =>
-      new Web3Modal({
+      new WalletConnectModal({
         projectId: process.env.NEXT_PUBLIC_PROJECT_ID ?? '',
-        themeMode: 'light',
-        walletConnectVersion: 2,
+        themeMode: 'dark',
+        themeVariables: {
+          '--wcm-background-color': '#292A30CC',
+          '--wcm-accent-color': '#34D98F',
+          '--wcm-accent-fill-color': '#34D98F',
+        },
+        enableExplorer: false,
       }),
     []
   );
