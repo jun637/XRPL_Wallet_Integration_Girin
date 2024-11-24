@@ -1,18 +1,10 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
-import './globals.css';
 import Provider from './provider';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
+import '@/styles/globals.css';
+import { poppins } from '@/styles/fonts/poppins';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Girin WalletConnect Example',
@@ -26,9 +18,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${poppins.className} antialiased`}>
+        <div className="flex h-[150px] items-center justify-center">
+          <Link href="https://girin.app">
+            <Image
+              priority
+              src="/logo.svg"
+              alt="Logo"
+              width={181}
+              height={88.36}
+            />
+          </Link>
+        </div>
         <Provider>{children}</Provider>
       </body>
     </html>
