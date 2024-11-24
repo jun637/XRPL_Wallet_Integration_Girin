@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Provider from './provider';
 
 import '@/styles/globals.css';
 import { poppins } from '@/styles/fonts/poppins';
@@ -30,7 +29,7 @@ export default function RootLayout({
             />
           </Link>
         </div>
-        <Provider>{children}</Provider>
+        {children}
       </body>
     </html>
   );

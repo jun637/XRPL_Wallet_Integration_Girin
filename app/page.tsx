@@ -1,87 +1,136 @@
 'use client';
+
+import { useEffect, useLayoutEffect, useState } from 'react';
+import {
+  useSession,
+  WalletConnectModalSign,
+} from '@walletconnect/modal-sign-react';
+import { getAppMetadata } from '@walletconnect/utils';
+
+import { Connect } from '@/components/connect';
+import { Disconnect } from '@/components/disconnect';
+import { Send } from '@/components/send';
+import { Sign } from '@/components/sign';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import Wallet from '@/components/wallet';
-import { useWalletConnectClient } from '@/context/ClientContext';
-import { useState } from 'react';
 
-export default function Home() {
-  const { accounts, signTransaction } = useWalletConnectClient();
-  const [address, setAddress] = useState<string>(
+import { NETWORK, NETWORK_MAP, networks } from '@/lib/network';
+import { cn } from '@/lib/utils';
+
+export default function Page() {
+  // prevent to restore the session automatically
+  useLayoutEffect(() => {
+    indexedDB.deleteDatabase('WALLET_CONNECT_V2_INDEXED_DB');
+  }, []);
+
+  const [network, setNetwork] = useState<NETWORK>();
+  const [accounts, setAccounts] = useState({
+    xrpl: '',
+    trn: '',
+  });
+
+  const [destination, setDestination] = useState(
     'rGA3kwmB5hBnvs6VW1fnGKysJfBCUazDrD'
   );
-  const [amount, setAmount] = useState<string>('100000');
+  const [amount, setAmount] = useState('100000');
 
-  const sendTransaction = async (network: string) => {
-    const result = await signTransaction(network, {
-      TransactionType: 'Payment',
-      Account: accounts[0].split(':')[2],
-      Destination: address,
-      Amount: amount,
+  // access the connected session
+  const session = useSession();
+
+  // get accounts from the connected session
+  useEffect(() => {
+    if (!session) return;
+
+    setAccounts({
+      xrpl: session.namespaces['xrpl'].accounts[0].split(':')[2],
+      trn: session.namespaces['eip155'].accounts[0].split(':')[2],
     });
-    console.log(result);
-  };
+  }, [session]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center space-y-10">
-      <h1 className="text-2xl font-bold">Girin WalletConnect Example</h1>
-      <div className="flex flex-col space-y-4">
-        <Wallet />
-        <div className="flex flex-col">
-          <h1>XRPL Send</h1>
-          <Input
-            type="text"
-            value={address}
-            placeholder="Enter address"
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <Input
-            type="text"
-            value={amount}
-            placeholder="Enter amount"
-            onChange={(e) => setAmount(e.target.value)}
-          />
+    <main className="mx-auto flex max-w-4xl flex-col space-y-4 px-4">
+      <h1 className="text-center text-[24px] font-semibold leading-7 tracking-[0.15px] text-primary">
+        Girin walletconnect example
+      </h1>
+
+      <p>Your accounts</p>
+      <ul>
+        <li>XRPL: {accounts.xrpl}</li>
+        <li>TRN: {accounts.trn}</li>
+      </ul>
+
+      <h2 className={cn('text-2xl', !session ? 'text-primary' : '')}>
+        1. Connect your wallet to start
+      </h2>
+      {session ? <Disconnect session={session} /> : <Connect />}
+
+      <h2 className={cn('text-2xl', session && !network ? 'text-primary' : '')}>
+        2. Select Network
+        {!session && <span>{` - Connect your wallet first`}</span>}
+      </h2>
+
+      <p>Current Network: {network && session && NETWORK_MAP[network]}</p>
+
+      <div className="space-x-2">
+        {networks.map((network) => (
           <Button
-            disabled={accounts.length == 0}
-            onClick={() => sendTransaction('xrpl:1')}
+            key={network}
+            onClick={() => setNetwork(network)}
+            disabled={!session}
           >
-            XRPL Testnet Send
+            {NETWORK_MAP[network]}
           </Button>
-          <Button
-            disabled={accounts.length == 0}
-            onClick={() => sendTransaction('xrpl:0')}
-          >
-            XRPL Mainnet Send
-          </Button>
-        </div>
-        <div className="flex flex-col">
-          <h1>The Root Network Send</h1>
-          <Input
-            type="text"
-            value={address}
-            placeholder="Enter address"
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <Input
-            type="text"
-            value={amount}
-            placeholder="Enter amount"
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <Button
-            disabled={accounts.length == 0}
-            onClick={() => sendTransaction('xrpl:1')}
-          >
-            TRN Porcini Send
-          </Button>
-          <Button
-            disabled={accounts.length == 0}
-            onClick={() => sendTransaction('xrpl:0')}
-          >
-            TRN Mainnet Send
-          </Button>
-        </div>
+        ))}
       </div>
+
+      <h2 className={cn('text-2xl', session && network ? 'text-primary' : '')}>
+        3. Send Request
+        {!session && <span>{` - Connect your wallet first`}</span>}
+        {session && !network && <span>{` - Select network first`}</span>}
+      </h2>
+
+      <p>Destination Address</p>
+      <Input
+        value={destination}
+        onChange={(e) => setDestination(e.target.value)}
+        disabled={!session || !network}
+      />
+
+      <p>Amount</p>
+      <Input
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        disabled={!session || !network}
+      />
+
+      {session && network && (
+        <Send
+          account={network.startsWith('xrpl') ? accounts.xrpl : accounts.trn}
+          network={network}
+          amount={amount}
+          destination={destination}
+          topic={session.topic}
+        />
+      )}
+
+      {session && network && network.startsWith('eip155') && (
+        <Sign account={accounts.trn} network={network} topic={session.topic} />
+      )}
+
+      <WalletConnectModalSign
+        projectId={process.env.NEXT_PUBLIC_PROJECT_ID as string}
+        metadata={getAppMetadata()}
+        modalOptions={{
+          themeMode: 'dark',
+          themeVariables: {
+            '--wcm-background-color': '#292A30CC',
+            '--wcm-accent-color': '#34D98F',
+            '--wcm-accent-fill-color': '#34D98F',
+          },
+          enableExplorer: false,
+        }}
+      />
     </main>
   );
 }
