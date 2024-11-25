@@ -1,5 +1,6 @@
 import { useConnect } from '@walletconnect/modal-sign-react';
-import { Button } from './ui/button';
+
+import { Button } from '@/components/ui/button';
 
 export function Connect() {
   const { connect, loading: isConnecting } = useConnect({

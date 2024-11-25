@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import '@/styles/globals.css';
 import { poppins } from '@/styles/fonts/poppins';
-import Link from 'next/link';
-import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Girin WalletConnect Example',

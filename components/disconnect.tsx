@@ -2,7 +2,7 @@ import { useDisconnect } from '@walletconnect/modal-sign-react';
 import { getSdkError } from '@walletconnect/utils';
 import { SessionTypes } from '@walletconnect/types';
 
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 
 export function Disconnect({ session }: { session: SessionTypes.Struct }) {
   const { disconnect, loading: isDisconnecting } = useDisconnect({
