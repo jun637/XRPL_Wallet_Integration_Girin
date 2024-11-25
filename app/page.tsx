@@ -50,7 +50,7 @@ export default function Page() {
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col space-y-4 px-4">
-      <h1 className="text-center text-[24px] font-semibold leading-7 tracking-[0.15px] text-primary">
+      <h1 className="text-center text-3xl font-semibold tracking-[-1.75px] text-primary">
         Girin walletconnect example
       </h1>
 
