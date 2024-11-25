@@ -49,6 +49,8 @@ export function Send({ topic, network, account, amount, destination }: Props) {
           {
             from: account,
             to: destination,
+            gasPrice: '0x029104e28c',
+            gas: '0x5208',
             value: '0x' + BigInt(amount).toString(16),
             data: '0x',
           },
