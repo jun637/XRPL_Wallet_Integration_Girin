@@ -47,7 +47,7 @@ export function Send({ topic, network, account, amount, destination }: Props) {
         params: [
           {
             from: account,
-            to: '0xBDE1EAE59cE082505bB73fedBa56252b1b9C60Ce',
+            to: destination,
             value: '0x' + BigInt(amount).toString(16),
             data: '0x',
           },
