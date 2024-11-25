@@ -20,6 +20,7 @@ type TrnSendTransactionResponse = unknown;
 export function Send({ topic, network, account, amount, destination }: Props) {
   const isXrpl = network.startsWith('xrpl');
 
+  // https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc#xrpl_signtransaction
   const { request: xrplSendTransaction } =
     useRequest<XrplSignTransactionResponse>({
       chainId: network, // xrpl:0, xrpl:1
@@ -37,6 +38,7 @@ export function Send({ topic, network, account, amount, destination }: Props) {
       },
     });
 
+  // https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc#example-parameters-1
   const { request: trnSendTransaction } =
     useRequest<TrnSendTransactionResponse>({
       chainId: network, // eip155:7668, eip155:7672

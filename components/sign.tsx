@@ -15,6 +15,7 @@ interface Props {
 type Response = unknown;
 
 export function Sign({ topic, network, account }: Props) {
+  // https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc#personal_sign
   const { request: signMessage } = useRequest<Response>({
     chainId: network, // eip155:7668, eip155:7672
     topic,
