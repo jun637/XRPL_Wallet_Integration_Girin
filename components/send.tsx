@@ -39,7 +39,8 @@ export function Send({ topic, network, account, amount, destination }: Props) {
       },
     });
 
-  // https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc#example-parameters-1
+  // https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc#example-parameters-1 - legacy
+  // girin wallet uses eip1559
   const { request: trnSendTransaction } =
     useRequest<TrnSendTransactionResponse>({
       chainId: network, // eip155:7668, eip155:7672
@@ -55,7 +56,10 @@ export function Send({ topic, network, account, amount, destination }: Props) {
             gas: '0x5208',
             value: '0x' + BigInt(amount).toString(16),
             data: '0x',
-            accessList: [], // mandatory on EIP-1559
+            accessList: [],
+            type: '0x2', // eip-1559
+            // Web3.swift uses transactionType instead of type
+            // https://github.com/Boilertalk/Web3.swift/blob/master/Sources/Core/Transaction/EthereumTransaction.swift
             transactionType: 'eip1559',
           },
         ],
