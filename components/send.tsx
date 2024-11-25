@@ -69,6 +69,6 @@ export function Send({ topic, network, account, amount, destination }: Props) {
       className="w-fit"
       onClick={() => sendTransaction()}
       disabled={!account || !amount || !destination}
-    >{`${isXrpl ? 'xrpl_signTransaction' : 'eth_senTransaction'} to ${NETWORK_MAP[network]}`}</Button>
+    >{`${isXrpl ? 'xrpl_signTransaction' : 'eth_sendTransaction'} to ${NETWORK_MAP[network]}`}</Button>
   );
 }
