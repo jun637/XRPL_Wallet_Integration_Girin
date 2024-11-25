@@ -12,9 +12,8 @@ interface Props {
   network: NETWORK;
 }
 
-interface Response {
-  // TODO
-}
+// TODO
+type Response = unknown;
 
 export function Sign({ topic, network, account }: Props) {
   const { request: signMessage, data } = useRequest<Response>({

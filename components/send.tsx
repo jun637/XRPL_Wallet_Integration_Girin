@@ -14,12 +14,9 @@ interface Props {
   destination: string;
 }
 
-interface XrplSignTransactionResponse {
-  // TODO
-}
-interface TrnSendTransactionResponse {
-  // TODO
-}
+// TODO
+type XrplSignTransactionResponse = unknown;
+type TrnSendTransactionResponse = unknown;
 
 export function Send({ topic, network, account, amount, destination }: Props) {
   const isXrpl = network.startsWith('xrpl');
