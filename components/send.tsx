@@ -1,7 +1,6 @@
 'use client';
 
 import { useRequest } from '@walletconnect/modal-sign-react';
-import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { NETWORK, NETWORK_MAP } from '@/lib/network';
@@ -21,7 +20,7 @@ type TrnSendTransactionResponse = unknown;
 export function Send({ topic, network, account, amount, destination }: Props) {
   const isXrpl = network.startsWith('xrpl');
 
-  const { request: xrplSendTransaction, data: xrplData } =
+  const { request: xrplSendTransaction } =
     useRequest<XrplSignTransactionResponse>({
       chainId: network, // xrpl:0, xrpl:1
       topic, // session.topic
@@ -38,7 +37,7 @@ export function Send({ topic, network, account, amount, destination }: Props) {
       },
     });
 
-  const { request: trnSendTransaction, data: trnData } =
+  const { request: trnSendTransaction } =
     useRequest<TrnSendTransactionResponse>({
       chainId: network, // eip155:7668, eip155:7672
       topic, // session.topic
@@ -55,19 +54,21 @@ export function Send({ topic, network, account, amount, destination }: Props) {
       },
     });
 
-  const sendTransaction = isXrpl ? xrplSendTransaction : trnSendTransaction;
-  const data = isXrpl ? xrplData : trnData;
+  const onSendTransaction = async () => {
+    const sendTransaction = isXrpl ? xrplSendTransaction : trnSendTransaction;
 
-  useEffect(() => {
-    if (data) {
-      console.log('send result', data);
+    try {
+      const result = await sendTransaction();
+      console.info('sendTransaction result', result);
+    } catch (err) {
+      console.error(err);
     }
-  }, [data]);
+  };
 
   return (
     <Button
       className="w-fit"
-      onClick={() => sendTransaction()}
+      onClick={onSendTransaction}
       disabled={!account || !amount || !destination}
     >{`${isXrpl ? 'xrpl_signTransaction' : 'eth_sendTransaction'} to ${NETWORK_MAP[network]}`}</Button>
   );
