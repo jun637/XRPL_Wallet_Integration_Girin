@@ -1,5 +1,6 @@
 'use client';
 
+import { parseEther } from 'ethers';
 import { useRequest } from '@walletconnect/modal-sign-react';
 
 import { Button } from '@/components/ui/button';
@@ -54,7 +55,7 @@ export function Send({ topic, network, account, amount, destination }: Props) {
             maxFeePerGas: '0x029104e28c',
             maxPriorityFeePerGas: '0x3b9aca00',
             gas: '0x5208',
-            value: '0x' + BigInt(amount).toString(16),
+            value: `0x${parseEther(amount).toString(16)}`,
             data: '0x',
             accessList: [],
             type: '0x2', // eip-1559
@@ -81,7 +82,7 @@ export function Send({ topic, network, account, amount, destination }: Props) {
     <Button
       className="w-fit"
       onClick={onSendTransaction}
-      disabled={!account || !amount || !destination}
+      disabled={!account || !amount || amount === '0' || !destination}
     >{`${isXrpl ? 'xrpl_signTransaction' : 'eth_sendTransaction'} to ${NETWORK_MAP[network]}`}</Button>
   );
 }

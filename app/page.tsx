@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useLayoutEffect, useState } from 'react';
 import {
   useSession,
   WalletConnectModalSign,
@@ -47,6 +47,18 @@ export default function Page() {
       trn: session.namespaces['eip155'].accounts[0].split(':')[2],
     });
   }, [session]);
+
+  // validate input amount
+  const handleInputAmount = (e: ChangeEvent<HTMLInputElement>) => {
+    const trimmed = e.target.value.toString().trim();
+    const parsed = parseFloat(trimmed);
+
+    return isNaN(parsed) || parsed < 0
+      ? setAmount('')
+      : parsed === 0
+        ? setAmount('0')
+        : setAmount(trimmed);
+  };
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col space-y-4 px-4">
@@ -99,8 +111,9 @@ export default function Page() {
 
       <p>Amount</p>
       <Input
+        type="number"
         value={amount}
-        onChange={(e) => setAmount(e.target.value)}
+        onChange={handleInputAmount}
         disabled={!session || !network}
       />
 
@@ -108,7 +121,7 @@ export default function Page() {
         <Send
           account={network.startsWith('xrpl') ? accounts.xrpl : accounts.trn}
           network={network}
-          amount={amount}
+          amount={amount || '0'}
           destination={destination}
           topic={session.topic}
         />
