@@ -1,6 +1,7 @@
 ## Getting Started
 
 GirinWallet supports XRPL and The Root Network via WalletConnect v2.
+
 - XRPL Specs : https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc
   - Support networks : `xrpl:0`, `xprl:1`
   - Support methods : `xrpl_sendTranscation`
@@ -8,11 +9,13 @@ GirinWallet supports XRPL and The Root Network via WalletConnect v2.
   - Support networks : `eip:7668`, `eip:7672`
   - Support method : `personal_sign`, `eth_sendTransaction`
 
-## Integration 
+## Integration
 
-#### Connect 
+#### Connect
+
 ![screenshot](docs/screenshot.png)
-```ts 
+
+```ts
 import { useConnect } from '@walletconnect/modal-sign-react';
 
 import { Button } from '@/components/ui/button';
@@ -55,6 +58,7 @@ export function Connect() {
 ```
 
 #### Disconnect
+
 ```ts
 import { useDisconnect } from '@walletconnect/modal-sign-react';
 import { getSdkError } from '@walletconnect/utils';
@@ -86,6 +90,7 @@ export function Disconnect({ session }: { session: SessionTypes.Struct }) {
 ```
 
 #### sendTransaction
+
 ```ts
 'use client';
 
@@ -168,7 +173,9 @@ export function Send({ topic, network, account, amount, destination }: Props) {
   );
 }
 ```
+
 personal_sign
+
 ```ts
 'use client';
 
@@ -216,9 +223,10 @@ export function Sign({ topic, network, account }: Props) {
 }
 ```
 
-
 ## Example
+
 ![스크린샷 2024-11-26 오후 11 14 50](https://github.com/user-attachments/assets/72fbd31e-2baa-4ca9-a2cc-355ec26b8fbd)
+
 - Demo : https://walletconnect-example.netlify.app/
 - Source : https://github.com/girin-app/girin-walletconnect-example
 
