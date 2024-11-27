@@ -3,15 +3,25 @@
 GirinWallet supports XRPL and The Root Network via WalletConnect v2.
 
 - XRPL Specs : https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc
-  - Support networks : `xrpl:0`, `xprl:1`
-  - Support methods : `xrpl_sendTranscation`
+  - Support networks : `xrpl:0` (mainnet), `xprl:1` (testnet)
+  - Support methods : `xrpl_signTranscation`
 - The Root Network Specs : https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc
-  - Support networks : `eip:7668`, `eip:7672`
+  - Support networks : `eip155:7668` (mainnet), `eip155:7672` (porcini testnet)
   - Support method : `personal_sign`, `eth_sendTransaction`
+
 
 ## Integration
 
-#### Connect
+### Install
+This example is constructed using the libraries below. You can also implement it by referring to the official WalletConnect v2 documentation.
+
+```bash
+yarn add @walletconnect/modal-sign-react @walletconnect/types @walletconnect/utils ethers
+```
+
+### Connect
+
+Connect your iOS or Android wallet by scanning a QR code. Connect through the namespace you need to connect to and get account information.
 
 ![screenshot-connect](docs/screenshot-connect.png)
 
@@ -57,7 +67,8 @@ export function Connect() {
 }
 ```
 
-#### Disconnect
+### Disconnect
+Disconnect from GirinWallet.
 
 ```ts
 import { useDisconnect } from '@walletconnect/modal-sign-react';
@@ -89,7 +100,9 @@ export function Disconnect({ session }: { session: SessionTypes.Struct }) {
 }
 ```
 
-#### sendTransaction
+### SendTransaction
+
+Below is an example of how to send a transaction to XRPL, TheRootNetwork. For detailed response, please check the XRPL, EVM specs in WalletConnect V2.
 
 ```ts
 'use client';
@@ -174,7 +187,9 @@ export function Send({ topic, network, account, amount, destination }: Props) {
 }
 ```
 
-personal_sign
+### personal_sign
+
+See the example below to see how to do personal_sign on TheRootNetwork. For more detailed answers, please check the EVM specs of WalletConnect V2.
 
 ```ts
 'use client';
@@ -225,17 +240,15 @@ export function Sign({ topic, network, account }: Props) {
 
 ## Example
 
+You can easily conduct integration tests with GirinWallet through the examples below.
+
 ![screenshot-example](docs/screenshot-example.png)
 
 - Demo : https://walletconnect-example.netlify.app/
 - Source : https://github.com/girin-app/girin-walletconnect-example
 
 ```bash
-
 yarn
-
 yarn dev
-
+#Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
