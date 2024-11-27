@@ -40,11 +40,9 @@ export default function Page() {
 
   // get accounts from the connected session
   useEffect(() => {
-    if (!session) return;
-
     setAccounts({
-      xrpl: session.namespaces['xrpl'].accounts[0].split(':')[2],
-      trn: session.namespaces['eip155'].accounts[0].split(':')[2],
+      xrpl: session?.namespaces['xrpl'].accounts[0].split(':')[2] || '',
+      trn: session?.namespaces['eip155'].accounts[0].split(':')[2] || '',
     });
   }, [session]);
 
