@@ -11,7 +11,7 @@ GirinWallet supports XRPL and The Root Network via WalletConnect v2.
 ## Integration 
 
 #### Connect 
-![스크린샷 2024-11-26 오후 11 14 57](https://github.com/user-attachments/assets/260c04f7-c1f4-4a05-b5a7-7aba2593fb68)
+![screenshot](docs/screenshot.png)
 ```ts 
 import { useConnect } from '@walletconnect/modal-sign-react';
 
