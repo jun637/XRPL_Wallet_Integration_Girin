@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useLayoutEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import {
   useSession,
   WalletConnectModalSign,
@@ -20,9 +20,9 @@ import { cn } from '@/lib/utils';
 
 export default function Page() {
   // prevent to restore the session automatically
-  useLayoutEffect(() => {
-    indexedDB.deleteDatabase('WALLET_CONNECT_V2_INDEXED_DB');
-  }, []);
+  // useLayoutEffect(() => {
+  //   indexedDB.deleteDatabase('WALLET_CONNECT_V2_INDEXED_DB');
+  // }, []);
 
   const [network, setNetwork] = useState<NETWORK>();
   const [accounts, setAccounts] = useState({
@@ -41,8 +41,8 @@ export default function Page() {
   // get accounts from the connected session
   useEffect(() => {
     setAccounts({
-      xrpl: session?.namespaces['xrpl'].accounts[0].split(':')[2] || '',
-      trn: session?.namespaces['eip155'].accounts[0].split(':')[2] || '',
+      xrpl: session?.namespaces['xrpl']?.accounts[0]?.split(':')[2] || '',
+      trn: session?.namespaces['eip155']?.accounts[0]?.split(':')[2] || '',
     });
   }, [session]);
 
