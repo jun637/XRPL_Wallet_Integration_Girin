@@ -4,19 +4,56 @@ GirinWallet supports XRPL and The Root Network via WalletConnect v2.
 
 - XRPL Specs : https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc
   - Support networks : `xrpl:0` (mainnet), `xprl:1` (testnet)
-  - Support methods : `xrpl_signTranscation`
+  - Support methods : `xrpl_signTransaction`
 - The Root Network Specs : https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc
   - Support networks : `eip155:7668` (mainnet), `eip155:7672` (porcini testnet)
-  - Support method : `personal_sign`, `eth_sendTransaction`
-
+  - Support methods : `personal_sign`, `eth_sendTransaction`
 
 ## Integration
 
+### Prerequisites
+
+To get started with WalletConnect integration, you'll first need a Project ID from [cloud.reown.com](https://cloud.reown.com).
+
+If you don't have a Project Id, follow these steps:
+
+1. Visit [cloud.reown.com](https://cloud.reown.com) and sign up
+2. Navigate to the `Projects` tab (skip the Quick Start guide as `@reown/appkit` doesn't support XRPL)
+3. Create a new project by selecting "another kit" option
+
+   ![create-project](docs/create-project.png)
+
+4. Add your Project ID to a `.env` file:
+
+   ```bash
+   NEXT_PUBLIC_PROJECT_ID=your-project-id
+   ```
+
 ### Install
+
 This example is constructed using the libraries below. You can also implement it by referring to the official WalletConnect v2 documentation.
 
 ```bash
 yarn add @walletconnect/modal-sign-react @walletconnect/types @walletconnect/utils ethers
+```
+
+### Initialize
+
+Add `WalletConnectModalSign` component to your top-level component:
+
+```ts
+import { WalletConnectModalSign } from '@walletconnect/modal-sign-react';
+import { getAppMetadata } from '@walletconnect/utils';
+
+export default function Page() {
+
+  return (
+    <WalletConnectModalSign
+          projectId={process.env.NEXT_PUBLIC_PROJECT_ID}
+          metadata={getAppMetadata()}
+    />
+  )
+}
 ```
 
 ### Connect
@@ -68,6 +105,7 @@ export function Connect() {
 ```
 
 ### Disconnect
+
 Disconnect from GirinWallet.
 
 ```ts
