@@ -15,7 +15,7 @@ GirinWallet supports XRPL and The Root Network via WalletConnect v2.
 
 To get started with WalletConnect integration, you'll first need a Project ID from [cloud.reown.com](https://cloud.reown.com).
 
-If you don't have a Project Id, follow these steps:
+If you don't have a Project ID, follow these steps:
 
 1. Visit [cloud.reown.com](https://cloud.reown.com) and sign up
 2. Navigate to the `Projects` tab (skip the Quick Start guide as `@reown/appkit` doesn't support XRPL)
