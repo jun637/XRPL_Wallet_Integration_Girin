@@ -17,7 +17,7 @@ If you don't have a Project ID, follow these steps:
 
 1. Visit [cloud.reown.com](https://cloud.reown.com) and sign up
 2. Navigate to the `Projects` tab (skip the Quick Start guide as `@reown/appkit` doesn't support XRPL)
-3. Create a new project by selecting "another kit" option(현재는 another kit 옵션이 없기 때문에 App kit으로 선택)
+3. Create a new project by selecting "another kit" option (현재는 another kit 옵션이 없기 때문에 Appkit으로 선택)
 
    ![create-project](docs/create-project.png)
 
