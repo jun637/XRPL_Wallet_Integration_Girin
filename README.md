@@ -1,5 +1,5 @@
 ## Getting Started
-
+출처 : https://girin.readme.io/docs/walletconnect-integration
 GirinWallet supports XRPL via WalletConnect v2.
 
 - XRPL Specs : https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc
