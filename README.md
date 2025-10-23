@@ -1,5 +1,6 @@
 ## Getting Started
-출처 : https://girin.readme.io/docs/walletconnect-integration
+원본 Docs : https://girin.readme.io/docs/walletconnect-integration
+원본 소스코드 : https://github.com/girin-app/girin-walletconnect-example
 
 GirinWallet은 WalletConnect v2를 통해 XRPL을 지원합니다.
 
