@@ -1,43 +1,42 @@
 ## Getting Started
 출처 : https://girin.readme.io/docs/walletconnect-integration
 
-GirinWallet supports XRPL via WalletConnect v2.
+GirinWallet은 WalletConnect v2를 통해 XRPL을 지원합니다.
 
-- XRPL Specs : https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc
-  - Support networks : `xrpl:0` (mainnet), `xprl:1` (testnet)
-  - Support methods : `xrpl_signTransaction`
+- XRPL 스펙: https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc
+ - 지원 네트워크: xrpl:0(메인넷), xrpl:1(테스트넷)
+ - 지원 메서드: xrpl_signTransaction
 
-## Integration
+##통합(Integration)
+###사전 준비(Prerequisites)
 
-### Prerequisites
+WalletConnect 연동을 시작하려면 먼저 [cloud.reown.com](https://cloud.reown.com)에서 Project ID를 발급받아야 합니다.
 
-To get started with WalletConnect integration, you'll first need a Project ID from [cloud.reown.com](https://cloud.reown.com).
+Project ID가 없다면 다음 순서를 따르세요:
 
-If you don't have a Project ID, follow these steps:
-
-1. Visit [cloud.reown.com](https://cloud.reown.com) and sign up
-2. Navigate to the `Projects` tab (skip the Quick Start guide as `@reown/appkit` doesn't support XRPL)
-3. Create a new project by selecting "another kit" option (현재는 another kit 옵션이 없기 때문에 Appkit으로 선택)
+1. [cloud.reown.com](https://cloud.reown.com)에 접속해 가입합니다.
+2. Projects 탭으로 이동합니다. (@reown/appkit은 XRPL을 지원하지 않으므로 Quick Start 가이드는 건너뜁니다.)
+3. 새 프로젝트를 생성할 때 “another kit” 옵션을 선택합니다. (현재는 another kit 옵션이 없기 때문에 Appkit으로 선택)
 
    ![create-project](docs/create-project.png)
 
-4. Add your Project ID to a `.env` file:
+4. 발급받은 Project ID를 .env 파일에 추가합니다:
 
    ```bash
    NEXT_PUBLIC_PROJECT_ID=your-project-id
    ```
 
-### Install
+### 설치(Install)
 
-This example is constructed using the libraries below. You can also implement it by referring to the official WalletConnect v2 documentation.
+이 예제는 아래 라이브러리를 사용해 구성되었습니다. 공식 WalletConnect v2 문서를 참고해 동일한 방식으로 구현할 수도 있습니다.
 
 ```bash
 yarn add @walletconnect/modal-sign-react @walletconnect/types @walletconnect/utils
 ```
 
-### Initialize
+### 초기화(Initialize)
 
-Add `WalletConnectModalSign` component to your top-level component:
+최상위 컴포넌트에 WalletConnectModalSign 컴포넌트를 추가하세요:
 
 ```ts
 import { WalletConnectModalSign } from '@walletconnect/modal-sign-react';
@@ -54,9 +53,9 @@ export default function Page() {
 }
 ```
 
-### Connect
+### 연결(Connect)
 
-Connect your iOS or Android wallet by scanning a QR code. Connect through the namespace you need to connect to and get account information.
+QR 코드를 스캔하여 iOS 또는 Android 지갑을 연결합니다. 연결하려는 네임스페이스를 지정하고 계정 정보를 가져옵니다.
 
 ![screenshot-connect](docs/screenshot-connect.png)
 
@@ -97,9 +96,9 @@ export function Connect() {
 }
 ```
 
-### Disconnect
+### 연결 해제(Disconnect)
 
-Disconnect from GirinWallet.
+GirinWallet과의 연결을 해제합니다.
 
 ```ts
 import { useDisconnect } from '@walletconnect/modal-sign-react';
@@ -131,9 +130,9 @@ export function Disconnect({ session }: { session: SessionTypes.Struct }) {
 }
 ```
 
-### SendTransaction
+### 트랜잭션 전송(SendTransaction)
 
-Below is an example of how to send a transaction to XRPL. For detailed response, please check the XRPL specs in WalletConnect V2.
+아래 예시는 XRPL로 트랜잭션을 전송하는 방법을 보여줍니다. 응답 형식 등 자세한 내용은 WalletConnect v2의 XRPL 스펙을 참고하세요.
 
 ```ts
 'use client';
@@ -193,9 +192,9 @@ export function Send({ topic, network, account, amount, destination }: Props) {
 }
 ```
 
-## Example
+## 예제(Example)
 
-You can easily conduct integration tests with GirinWallet through the examples below.
+아래 예제를 통해 GirinWallet과의 통합 테스트를 쉽게 수행할 수 있습니다.
 
 ![screenshot-example](docs/screenshot-example.png)
 
@@ -205,5 +204,5 @@ You can easily conduct integration tests with GirinWallet through the examples b
 ```bash
 yarn
 yarn dev
-#Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 브라우저에서 [http://localhost:3000](http://localhost:3000) 을 열어 동작을 확인하세요.
 ```
