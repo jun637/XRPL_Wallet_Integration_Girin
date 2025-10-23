@@ -7,8 +7,9 @@ GirinWallet은 WalletConnect v2를 통해 XRPL을 지원합니다.
  - 지원 네트워크: xrpl:0(메인넷), xrpl:1(테스트넷)
  - 지원 메서드: xrpl_signTransaction
 
-##통합(Integration)
-###사전 준비(Prerequisites)
+## 통합(Integration)
+
+### 사전 준비(Prerequisites)
 
 WalletConnect 연동을 시작하려면 먼저 [cloud.reown.com](https://cloud.reown.com)에서 Project ID를 발급받아야 합니다.
 
