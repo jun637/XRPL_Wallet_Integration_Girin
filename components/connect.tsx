@@ -10,11 +10,6 @@ export function Connect() {
         methods: ['xrpl_signTransaction'],
         events: ['chainChanged', 'accountsChanged'],
       },
-      eip155: {
-        chains: ['eip155:7668', 'eip155:7672'],
-        methods: ['eth_sendTransaction', 'personal_sign'],
-        events: ['chainChanged', 'accountsChanged'],
-      },
     },
   });
 

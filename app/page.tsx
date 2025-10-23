@@ -10,8 +10,6 @@ import { getAppMetadata } from '@walletconnect/utils';
 import { Connect } from '@/components/connect';
 import { Disconnect } from '@/components/disconnect';
 import { Send } from '@/components/send';
-import { Sign } from '@/components/sign';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -27,7 +25,6 @@ export default function Page() {
   const [network, setNetwork] = useState<NETWORK>();
   const [accounts, setAccounts] = useState({
     xrpl: '',
-    trn: '',
   });
 
   const [destination, setDestination] = useState(
@@ -42,7 +39,6 @@ export default function Page() {
   useEffect(() => {
     setAccounts({
       xrpl: session?.namespaces['xrpl']?.accounts[0]?.split(':')[2] || '',
-      trn: session?.namespaces['eip155']?.accounts[0]?.split(':')[2] || '',
     });
   }, [session]);
 
@@ -67,7 +63,6 @@ export default function Page() {
       <p>Your accounts</p>
       <ul>
         <li>XRPL: {accounts.xrpl}</li>
-        <li>TRN: {accounts.trn}</li>
       </ul>
 
       <h2 className={cn('text-2xl', !session ? 'text-primary' : '')}>
@@ -117,16 +112,12 @@ export default function Page() {
 
       {session && network && (
         <Send
-          account={network.startsWith('xrpl') ? accounts.xrpl : accounts.trn}
+          account={accounts.xrpl}
           network={network}
           amount={amount || '0'}
           destination={destination}
           topic={session.topic}
         />
-      )}
-
-      {session && network && network.startsWith('eip155') && (
-        <Sign account={accounts.trn} network={network} topic={session.topic} />
       )}
 
       <WalletConnectModalSign

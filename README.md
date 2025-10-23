@@ -1,13 +1,10 @@
 ## Getting Started
 
-GirinWallet supports XRPL and The Root Network via WalletConnect v2.
+GirinWallet supports XRPL via WalletConnect v2.
 
 - XRPL Specs : https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc
   - Support networks : `xrpl:0` (mainnet), `xprl:1` (testnet)
   - Support methods : `xrpl_signTransaction`
-- The Root Network Specs : https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc
-  - Support networks : `eip155:7668` (mainnet), `eip155:7672` (porcini testnet)
-  - Support methods : `personal_sign`, `eth_sendTransaction`
 
 ## Integration
 
@@ -34,7 +31,7 @@ If you don't have a Project ID, follow these steps:
 This example is constructed using the libraries below. You can also implement it by referring to the official WalletConnect v2 documentation.
 
 ```bash
-yarn add @walletconnect/modal-sign-react @walletconnect/types @walletconnect/utils ethers
+yarn add @walletconnect/modal-sign-react @walletconnect/types @walletconnect/utils
 ```
 
 ### Initialize
@@ -73,11 +70,6 @@ export function Connect() {
       xrpl: {
         chains: ['xrpl:0', 'xrpl:1'],
         methods: ['xrpl_signTransaction'],
-        events: ['chainChanged', 'accountsChanged'],
-      },
-      eip155: {
-        chains: ['eip155:7668', 'eip155:7672'],
-        methods: ['eth_sendTransaction', 'personal_sign'],
         events: ['chainChanged', 'accountsChanged'],
       },
     },
@@ -140,7 +132,7 @@ export function Disconnect({ session }: { session: SessionTypes.Struct }) {
 
 ### SendTransaction
 
-Below is an example of how to send a transaction to XRPL, TheRootNetwork. For detailed response, please check the XRPL, EVM specs in WalletConnect V2.
+Below is an example of how to send a transaction to XRPL. For detailed response, please check the XRPL specs in WalletConnect V2.
 
 ```ts
 'use client';
@@ -161,11 +153,8 @@ interface Props {
 
 // TODO
 type XrplSignTransactionResponse = unknown;
-type TrnSendTransactionResponse = unknown;
 
 export function Send({ topic, network, account, amount, destination }: Props) {
-  const isXrpl = network.startsWith('xrpl');
-
   // https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc#xrpl_signtransaction
   const { request: xrplSendTransaction } =
     useRequest<XrplSignTransactionResponse>({
@@ -184,31 +173,9 @@ export function Send({ topic, network, account, amount, destination }: Props) {
       },
     });
 
-  // https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc#example-parameters-1
-  const { request: trnSendTransaction } =
-    useRequest<TrnSendTransactionResponse>({
-      chainId: network, // eip155:7668, eip155:7672
-      topic, // session.topic
-      request: {
-        method: 'eth_sendTransaction',
-        params: [
-          {
-            from: account,
-            to: destination,
-            gasPrice: '0x029104e28c',
-            gas: '0x5208',
-            value: '0x' + BigInt(amount).toString(16),
-            data: '0x',
-          },
-        ],
-      },
-    });
-
   const onSendTransaction = async () => {
-    const sendTransaction = isXrpl ? xrplSendTransaction : trnSendTransaction;
-
     try {
-      const result = await sendTransaction();
+      const result = await xrplSendTransaction();
       console.info('sendTransaction result', result);
     } catch (err) {
       console.error(err);
@@ -219,59 +186,8 @@ export function Send({ topic, network, account, amount, destination }: Props) {
     <Button
       className="w-fit"
       onClick={onSendTransaction}
-      disabled={!account || !amount || !destination}
-    >{`${isXrpl ? 'xrpl_signTransaction' : 'eth_sendTransaction'} to ${NETWORK_MAP[network]}`}</Button>
-  );
-}
-```
-
-### personal_sign
-
-See the example below to see how to do personal_sign on TheRootNetwork. For more detailed answers, please check the EVM specs of WalletConnect V2.
-
-```ts
-'use client';
-
-import { useRequest } from '@walletconnect/modal-sign-react';
-
-import { Button } from '@/components/ui/button';
-
-import { NETWORK, NETWORK_MAP } from '@/lib/network';
-
-interface Props {
-  topic: string;
-  account: string;
-  network: NETWORK;
-}
-
-// TODO
-type Response = unknown;
-
-export function Sign({ topic, network, account }: Props) {
-  // https://docs.reown.com/advanced/multichain/rpc-reference/ethereum-rpc#personal_sign
-  const { request: signMessage } = useRequest<Response>({
-    chainId: network, // eip155:7668, eip155:7672
-    topic,
-    request: {
-      method: 'personal_sign',
-      params: ['Hello World', account],
-    },
-  });
-
-  const onSign = async () => {
-    try {
-      const data = await signMessage();
-      console.info('sign result', data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  return (
-    <Button
-      className="w-fit"
-      onClick={onSign}
-    >{`personal_Sign to ${NETWORK_MAP[network]}`}</Button>
+      disabled={!account || !amount || amount === '0' || !destination}
+    >{`xrpl_signTransaction to ${NETWORK_MAP[network]}`}</Button>
   );
 }
 ```
