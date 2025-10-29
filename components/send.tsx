@@ -12,12 +12,20 @@ interface Props {
   network: NETWORK;
   amount: string;
   destination: string;
+  destinationTag?: number;
 }
 
 // TODO
 type XrplSignTransactionResponse = unknown;
 
-export function Send({ topic, network, account, amount, destination }: Props) {
+export function Send({
+  topic,
+  network,
+  account,
+  amount,
+  destination,
+  destinationTag,
+}: Props) {
   // https://docs.reown.com/advanced/multichain/rpc-reference/xrpl-rpc#xrpl_signtransaction
   const { request: xrplSendTransaction } =
     useRequest<XrplSignTransactionResponse>({
@@ -31,6 +39,9 @@ export function Send({ topic, network, account, amount, destination }: Props) {
             Account: account,
             Destination: destination,
             Amount: amount,
+            ...(typeof destinationTag === 'number'
+              ? { DestinationTag: destinationTag }
+              : {}),
           },
         },
       },

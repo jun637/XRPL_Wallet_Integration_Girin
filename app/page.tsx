@@ -31,6 +31,7 @@ export default function Page() {
     'rGA3kwmB5hBnvs6VW1fnGKysJfBCUazDrD'
   );
   const [amount, setAmount] = useState('100000');
+  const [destinationTag, setDestinationTag] = useState('');
 
   // access the connected session
   const session = useSession();
@@ -53,6 +54,17 @@ export default function Page() {
         ? setAmount('0')
         : setAmount(trimmed);
   };
+
+  const handleDestinationTag = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    if (value === '' || /^\d+$/.test(value)) {
+      setDestinationTag(value);
+    }
+  };
+
+  const parsedDestinationTag =
+    destinationTag === '' ? undefined : Number(destinationTag);
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col space-y-4 px-4">
@@ -110,12 +122,24 @@ export default function Page() {
         disabled={!session || !network}
       />
 
+      <p>Destination Tag(Optional)</p>
+      <Input
+        type="number"
+        min={0}
+        step={1}
+        inputMode="numeric"
+        value={destinationTag}
+        onChange={handleDestinationTag}
+        disabled={!session || !network}
+      />
+
       {session && network && (
         <Send
           account={accounts.xrpl}
           network={network}
           amount={amount || '0'}
           destination={destination}
+          destinationTag={parsedDestinationTag}
           topic={session.topic}
         />
       )}
